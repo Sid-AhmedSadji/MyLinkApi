@@ -16,7 +16,7 @@ function routes() {
         next();
     })
 
-    router.get("/", (req, res) => {
+    router.get("/Api", (req, res) => {
         try {
             const query = { ...req.query };
             Link.getLinks(query).then((reponse) => {
@@ -28,7 +28,7 @@ function routes() {
         }
     });
 
-    router.post("/", (req, res) => {
+    router.post("/Api", (req, res) => {
         try {
             const link = { ...req.query };
             link.liked === "true" ? link.liked = true : link.liked = false
@@ -47,7 +47,7 @@ function routes() {
         }
     });
 
-    router.delete("/", (req, res) => {
+    router.delete("/Api", (req, res) => {
         try {
             const query = { _id: new ObjectId(req.query._id) };
             if (!query._id) {
@@ -62,7 +62,7 @@ function routes() {
         }
     });
 
-    router.put("/", (req, res) => {
+    router.put("/Api", (req, res) => {
         try {
 
             const query = { _id: new ObjectId(req.query.id) }; 

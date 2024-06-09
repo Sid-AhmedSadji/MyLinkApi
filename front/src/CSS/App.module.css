@@ -87,12 +87,12 @@
     color: white;
 }
 
-.ajoutLink{
+.addLink{
     z-index: 1;
     position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50%;
+    top: 30%;
+    left: 40%;
+    width: 30%;
     height: 50%;
     border-radius: 10px;
     background-color: #323232;
@@ -187,4 +187,10 @@
         max-height: 85vh;
     }
     
+    .addLink{
+        width: 90%;
+        top: 30%;
+        left: 5%;
+        height: 40%;
+    }
 }

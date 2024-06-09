@@ -1,34 +1,29 @@
 import axios from 'axios';
-import React from 'react';
-
-
 
 class Api {
-    
-    static url = "https://mylinkapi.onrender.com/Api" ; 
+    static get API_URL() {
+        return "https://mylinkapi.onrender.com/Api";
+    }
 
-    static async getLinks (query) {
-        const reponse = await axios.get(Api.url, {params: query});
-        return reponse.data;
-
+    static async getLinks(query) {
+        const response = await axios.get(this.API_URL, { params: query });
+        return response.data;
     }
 
     static async updateLink(id, query) {
-        console.log(id, query)
-        const reponse = await axios.put(Api.url,null, {params : { id, query }});
-        return reponse.data;
+        const response = await axios.put(this.API_URL, null, { params: { id, query } });
+        return response.data;
     }
 
     static async deleteLink(_id) {
-        const reponse = await axios.delete(Api.url, {params : { _id }});
-        return reponse.data;
+        const response = await axios.delete(this.API_URL, { params: { _id } });
+        return response.data;
     }
 
     static async postLink(query) {
-        const reponse = await axios.post(Api.url, null,{params :query});
-        return reponse.data;
+        const response = await axios.post(this.API_URL, null, { params: query });
+        return response.data;
     }
-
 }
 
-export default Api
+export default Api;

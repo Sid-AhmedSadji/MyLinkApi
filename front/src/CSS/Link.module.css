@@ -142,7 +142,11 @@
 }
 
 @media (max-width: 600px)  {
-    
+    .linkUpdate{
+        width: 90%;
+        top: 5%;
+        left: 5%;
+    }
 
 }
 

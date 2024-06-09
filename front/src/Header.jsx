@@ -1,17 +1,13 @@
-import style from './CSS/Header.module.css'
+import headerStyle from './CSS/Header.module.css'
 
-function Header( {tooggleFilter, onChangeFilter} ) {
+function Header({ toggleFilter, onChangeFilter }) {
 
     return (
 
-        <div className={style.Header}>
-
-            <img className={style.Logo} src="Logo.png" alt="logo" />
-
-            <input className={style.inputSearch} type="text" placeholder='Searching for something ?' onChange={onChangeFilter}/>
-
-            <button onClick={tooggleFilter}  className={style.button}>show filter</button>
-
+        <div className={headerStyle.Header}>
+            <img className={headerStyle.Logo} src="Logo.png" alt="logo" />
+            <input className={headerStyle.inputSearch} type="text" placeholder='Searching for something ?' onChange={onChangeFilter}/>
+            <button onClick={toggleFilter} className={headerStyle.button}>show filter</button>
         </div>
     )
 }

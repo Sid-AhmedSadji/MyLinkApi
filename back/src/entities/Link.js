@@ -4,34 +4,39 @@ const uri = "mongodb+srv://sidahmedsadji:Onenoteproject@onenote.eegwv9q.mongodb.
 
 class Link {
 
-    constructor() {
-        (async () => {
-            this.client = await MongoClient.connect(uri);
-
-        })();
+    async connect() {
+        this.client = await MongoClient.connect(uri);
     }
 
     async saveLink(link) {
-        console.log(link)
-       const reponse = await this.client.db().collection("AllLink").insertOne(link);
-       return reponse;
+        await this.connect();
+        const db = this.client.db();
+        const reponse = await db.collection("AllLink").insertOne(link);
+        return reponse;
     }
 
     async getLinks(query) {
-        const reponse = await this.client.db().collection("AllLink").find(query).toArray();
+        await this.connect();
+        const db = this.client.db();
+        const reponse = await db.collection("AllLink").find(query).toArray();
         return reponse;
     }
 
     async deleteLink(query) {
-        const reponse = await this.client.db().collection("AllLink").deleteOne(query);
+        await this.connect();
+        const db = this.client.db();
+        const reponse = await db.collection("AllLink").deleteOne(query);
         return reponse;
     }
 
     async updateLink(query, update) {
-        const reponse = await this.client.db().collection("AllLink").updateOne( query, update);
+        await this.connect();
+        const db = this.client.db();
+        const reponse = await db.collection("AllLink").updateOne( query, update);
         return reponse;
     }
 }
 
 exports.default = Link ;
+
 

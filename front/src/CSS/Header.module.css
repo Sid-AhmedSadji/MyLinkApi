@@ -43,11 +43,15 @@
     color: white;
     transform: scale(1.5);
     box-shadow: 0 0 0 #323232;
-  }
+}
+
+.button:active{
+    scale: 0.9;
+}
 
 
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .Header{
         height: 50px;
     }

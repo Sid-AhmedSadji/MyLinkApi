@@ -6,7 +6,7 @@ function Header({ toggleFilter, onChangeFilter }) {
 
         <div className={headerStyle.Header}>
             <img className={headerStyle.Logo} src="Logo.png" alt="logo" />
-            <input className={headerStyle.inputSearch} type="text" placeholder='Searching for something ?' onChange={onChangeFilter}/>
+            <input onFocus={e => e.target.select()} className={headerStyle.inputSearch} type="text" placeholder='Searching for something ?' onChange={onChangeFilter}  />
             <button onClick={toggleFilter} className={headerStyle.button}>show filter</button>
         </div>
     )

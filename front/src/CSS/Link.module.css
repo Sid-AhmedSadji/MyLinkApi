@@ -15,7 +15,9 @@
 .button:hover{
     scale: 1.4 ;
     transition: 0.5s;
-    
+}
+.button:active{
+    scale: 0.9;
 }
 
 .link {
@@ -36,10 +38,18 @@
     right: 10px;
 }
 
+.like:hover {
+    color: rgb(101, 99, 221);
+}
+
 .report {
     position: absolute;
     top: 10px;
     right: 60px;
+}
+
+.report:hover {
+    color: rgb(238, 200, 30);
 }
 
 .delete {
@@ -55,8 +65,16 @@
     color: rgb(101, 99, 221);
 }
 
+.liked:hover{
+    color : black
+}
+
 .isDead{
     color: rgb(238, 200, 30);
+}
+
+.isDead:hover{
+    color : black
 }
 
 .date {
@@ -76,7 +94,7 @@
 .linkUpdate{
     z-index: 1;
     position: fixed;
-    top: 25%;
+    top: 30%;
     left: 25%;
     width: 50%;
     height: 50%;
@@ -141,11 +159,12 @@
     right: 10px;
 }
 
-@media (max-width: 600px)  {
+@media (max-width: 800px)  {
     .linkUpdate{
-        width: 90%;
-        top: 5%;
-        left: 5%;
+        width: 80%;
+        top: 30%;
+        left: 10%;
+        height: 40%;
     }
 
 }

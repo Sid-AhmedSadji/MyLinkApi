@@ -70,8 +70,8 @@ function CreateLink({ link, fetchData }) {
           </button>
           <form className={styles.LinkForm} onSubmit={handleSubmit}>
             <input className={styles.smallInput} type="text" value={name} onChange={(event) => setName(event.target.value)} />
-            <input className={styles.smallInput} type="text" value={linkUrl} onChange={(event) => setLinkUrl(event.target.value)} />
-            <input className={styles.smallInput} type="text" value={review} onChange={(event) => setReview(event.target.value)} />
+            <input className={styles.smallInput} type="text" value={linkUrl} onChange={(event) => setLinkUrl(event.target.value)} onFocus={e => e.target.select()} />
+            <input className={styles.smallInput} type="text" value={review} onChange={(event) => setReview(event.target.value)} onFocus={e => e.target.select()} />
             <button className={styles.buttonSubmit} type="submit">
               Submit
             </button>

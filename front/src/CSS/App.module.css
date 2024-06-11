@@ -81,18 +81,22 @@
 }
 
 .add:hover{
-    scale: 1.2;
+    scale: 1.4;
     transition: 0.5s ease-in-out;
     background-color: #323232;
     color: white;
+}
+
+.add:active{
+    scale: 0.9;
 }
 
 .addLink{
     z-index: 1;
     position: absolute;
     top: 30%;
-    left: 40%;
-    width: 30%;
+    left: 25%;
+    width: 50%;
     height: 50%;
     border-radius: 10px;
     background-color: #323232;
@@ -178,7 +182,7 @@
     }
 }
 
-@media (max-width: 600px)  {
+@media (max-width: 800px)  {
     .filterButton {
         width: 150px;
     }
@@ -188,9 +192,9 @@
     }
     
     .addLink{
-        width: 90%;
+        width: 80%;
         top: 30%;
-        left: 5%;
+        left: 10%;
         height: 40%;
     }
 }

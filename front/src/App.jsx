@@ -16,53 +16,54 @@ const sortTypes = [
   "url dead first"
 ]
 
-function filterLinks(links, filter, setFilteredLinks) {
+function filterLinks(links, filter) {
+  if (links.length === 0) return []
   if (filter) {
-    setFilteredLinks(
+    return(
       links.filter(link =>
         link.name.toLowerCase().includes(filter.toLowerCase()) ||
         link.link.toLowerCase().includes(filter.toLowerCase())
       )
     )
   } else {
-    setFilteredLinks([...links])
+    return([...links])
   }
 }
 
 function sortLinks(links, sortedBy, setFilteredLinks) {
-  if (links.length === 0) return
+  if (links.length === 0) return []
   switch (sortedBy) {
     case 0:
       // sort alphabetically
-      setFilteredLinks([...links].sort((a, b) => a.name.localeCompare(b.name)))
+      return([...links].sort((a, b) => a.name.localeCompare(b.name)))
       break
     case 1:
       // sort alphabetically reverse
-      setFilteredLinks([...links].sort((a, b) => b.name.localeCompare(a.name)))
+      return([...links].sort((a, b) => b.name.localeCompare(a.name)))
       break
     case 2:
       // sort by date
-      setFilteredLinks([...links].sort((a, b) => new Date(b.date) - new Date(a.date)))
+      return([...links].sort((a, b) => new Date(b.date) - new Date(a.date)))
       break
     case 3:
       // sort by date reverse
-      setFilteredLinks([...links].sort((a, b) => new Date(a.date) - new Date(b.date)))
+      return([...links].sort((a, b) => new Date(a.date) - new Date(b.date)))
       break
     case 4:
       // sort by liked
-      setFilteredLinks([...links].sort((a, b) => b.review - a.review))
+      return([...links].sort((a, b) => b.review - a.review))
       break
     case 5:
       // sort by liked reverse
-      setFilteredLinks([...links].sort((a, b) => a.review - b.review))
+      return([...links].sort((a, b) => a.review - b.review))
       break
     case 6:
       // sort by dead
-      setFilteredLinks([...links].sort((a, b) => a.isDead - b.isDead))
+      return([...links].sort((a, b) => a.isDead - b.isDead))
       break
     case 7:
       // sort by dead reverse
-      setFilteredLinks([...links].sort((a, b) => b.isDead - a.isDead))
+      return([...links].sort((a, b) => b.isDead - a.isDead))
       break
     default:
       break
@@ -111,7 +112,7 @@ function App() {
     try {
       const response = await Api.getLinks(query)
       setLinks([...response].sort((a, b) => a.name.localeCompare( b.name)))
-      setFilteredLinks( filterLinks( sortLinks(response, sortedBy, setFilteredLinks ), filter, setFilteredLinks) )
+      setFilteredLinks( filterLinks( sortLinks(response, sortedBy ), filter) )
     } catch (error) {
       console.log(error)
     }
@@ -134,11 +135,11 @@ function App() {
   }, [])
 
   useEffect(() => {
-    filterLinks(links, filter, setFilteredLinks)
+    setFilteredLinks(filterLinks(links, filter, setFilteredLinks))
   }, [filter])
 
   useEffect(() => {
-    sortLinks(links, sortedBy, setFilteredLinks)
+    setFilteredLinks(sortLinks(filterLinks(links, filter), sortedBy))
   }, [sortedBy])
 
   return (

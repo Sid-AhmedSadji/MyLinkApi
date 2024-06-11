@@ -167,6 +167,19 @@
     transition: 0.5s;
 }
 
+.textDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.comments{
+    color : #757474;
+    font-style: italic;
+    font-size: 13px;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

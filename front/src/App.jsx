@@ -30,7 +30,7 @@ function filterLinks(links, filter) {
   }
 }
 
-function sortLinks(links, sortedBy, setFilteredLinks) {
+function sortLinks(links, sortedBy) {
   if (links.length === 0) return []
   switch (sortedBy) {
     case 0:
@@ -80,6 +80,17 @@ function App() {
   const [name, setName] = useState('')
   const [link, setLink] = useState('')
   const [review, setReview] = useState('')
+
+  const clearFilter = () => {
+    setShowFilter(false)
+    setSortedBy(0)
+    setFilteredLinks(links)
+    setFilter("")
+    setIsOpen(false)
+    setName('')
+    setLink('')
+    setReview('')
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -147,6 +158,8 @@ function App() {
       <Header
         toggleFilter={toggleFilter}
         onChangeFilter={handleFilterChange}
+        value = {filter}
+        clearFilter={clearFilter}
       />
       <hr style={{ width: "75%" }} />
 
@@ -165,9 +178,12 @@ function App() {
         aj
       </div>
 
-      <button className={appStyle.filterButton} onClick={changeSort}>
-        sorted by: {sortTypes[sortedBy]}
-      </button>
+      <div className={appStyle.textDiv}>
+        <p className={appStyle.comments}> {filteredLinks.length} resultats </p>
+        <button className={appStyle.filterButton} onClick={changeSort}>
+          sorted by: {sortTypes[sortedBy]}
+        </button>
+      </div>
 
       <div className={appStyle.mainDiv}>
         <div className={appStyle.ListeDiv}>

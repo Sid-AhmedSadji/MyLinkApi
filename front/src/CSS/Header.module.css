@@ -14,6 +14,26 @@
     height: 100px;
 }
 
+.buttonLogo{
+    cursor: pointer;
+    padding: 0 ;
+    margin: 0 ;
+    border: 0 ;
+    height : fit-content;
+    width : fit-content;
+    background-color: transparent;
+    transition: 0.5s;
+
+}
+
+.buttonLogo:hover{
+    scale : 1.1;
+}
+
+.buttonLogo:active{
+    scale: 0.9;
+}
+
 .inputSearch{
     height: 30px;
     width: 340px;
@@ -53,11 +73,11 @@
 
 @media (max-width: 800px) {
     .Header{
-        height: 50px;
+        height: 70px;
     }
 
     .Logo{
-        height: 30px;
+        height: 60px;
     }
 
     .inputSearch{

@@ -10,11 +10,64 @@ const sortTypes = [
   "alphabetical-reverse",
   "date",
   "date-reverse",
-  "most liked",
-  "most liked-reverse",
-  "url dead first",
-  "url dead last"
+  "most liked first",
+  "most liked last",
+  "url dead last",
+  "url dead first"
 ]
+
+function filterLinks(links, filter, setFilteredLinks) {
+  if (filter) {
+    setFilteredLinks(
+      links.filter(link =>
+        link.name.toLowerCase().includes(filter.toLowerCase()) ||
+        link.link.toLowerCase().includes(filter.toLowerCase())
+      )
+    )
+  } else {
+    setFilteredLinks([...links])
+  }
+}
+
+function sortLinks(links, sortedBy, setFilteredLinks) {
+  if (links.length === 0) return
+  switch (sortedBy) {
+    case 0:
+      // sort alphabetically
+      setFilteredLinks([...links].sort((a, b) => a.name.localeCompare(b.name)))
+      break
+    case 1:
+      // sort alphabetically reverse
+      setFilteredLinks([...links].sort((a, b) => b.name.localeCompare(a.name)))
+      break
+    case 2:
+      // sort by date
+      setFilteredLinks([...links].sort((a, b) => new Date(b.date) - new Date(a.date)))
+      break
+    case 3:
+      // sort by date reverse
+      setFilteredLinks([...links].sort((a, b) => new Date(a.date) - new Date(b.date)))
+      break
+    case 4:
+      // sort by liked
+      setFilteredLinks([...links].sort((a, b) => b.review - a.review))
+      break
+    case 5:
+      // sort by liked reverse
+      setFilteredLinks([...links].sort((a, b) => a.review - b.review))
+      break
+    case 6:
+      // sort by dead
+      setFilteredLinks([...links].sort((a, b) => a.isDead - b.isDead))
+      break
+    case 7:
+      // sort by dead reverse
+      setFilteredLinks([...links].sort((a, b) => b.isDead - a.isDead))
+      break
+    default:
+      break
+  }
+}
 
 function App() {
   const [showFilter, setShowFilter] = useState(false)
@@ -57,8 +110,8 @@ function App() {
     const query = {}
     try {
       const response = await Api.getLinks(query)
-      setLinks(response)
-      setFilteredLinks(response)
+      setLinks([...response].sort((a, b) => a.name.localeCompare( b.name)))
+      setFilteredLinks( filterLinks( sortLinks(response, sortedBy, setFilteredLinks ), filter, setFilteredLinks) )
     } catch (error) {
       console.log(error)
     }
@@ -78,44 +131,14 @@ function App() {
 
   useEffect(() => {
     fetchData()
-    setSortedBy(0)
   }, [])
 
   useEffect(() => {
-    if (filter) {
-      setFilteredLinks(
-        links.filter(link =>
-          link.name.toLowerCase().includes(filter.toLowerCase()) ||
-          link.link.toLowerCase().includes(filter.toLowerCase())
-        )
-      )
-    } else {
-      setFilteredLinks([...links])
-    }
+    filterLinks(links, filter, setFilteredLinks)
   }, [filter])
 
   useEffect(() => {
-    if (filteredLinks.length > 0) {
-      setFilteredLinks([...filteredLinks].sort((a, b) => {
-        if (sortTypes[sortedBy] === "alphabetical") {
-          return a.name.localeCompare(b.name)
-        } else if (sortTypes[sortedBy] === "alphabetical-reverse") {
-          return b.name.localeCompare(a.name)
-        } else if (sortTypes[sortedBy] === "date") {
-          return new Date(a.date) - new Date(b.date)
-        } else if (sortTypes[sortedBy] === "date-reverse") {
-          return new Date(b.date) - new Date(a.date)
-        } else if (sortTypes[sortedBy] === "most liked") {
-          return a.liked - b.liked
-        } else if (sortTypes[sortedBy] === "most liked-reverse") {
-          return b.liked - a.liked
-        } else if (sortTypes[sortedBy] === "url dead first") {
-          return a.isDead - b.isDead
-        } else if (sortTypes[sortedBy] === "url dead last") {
-          return b.isDead - a.isDead
-        }
-      }))
-    }
+    sortLinks(links, sortedBy, setFilteredLinks)
   }, [sortedBy])
 
   return (

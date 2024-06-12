@@ -73,6 +73,11 @@ function sortLinks(links, sortedBy) {
   }
 }
 
+function handleName(char) {
+  const name = char.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_').replace(/\s/g, '_').replace(/_+/g, '_')
+  return name.charAt(0).toUpperCase() + name.slice(1)
+}
+
 function App() {
   const [showFilter, setShowFilter] = useState(true)
   const [sortedBy, setSortedBy] = useState(0)
@@ -231,7 +236,7 @@ function App() {
               className={appStyle.smallInput}
               type="text"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={e => setName(handleName(e.target.value))}
               placeholder='Name'
             />
             <input

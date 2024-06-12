@@ -1,0 +1,27 @@
+
+.textDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.comments{
+    color : #757474;
+    font-style: italic;
+    font-size: 13px;
+}
+
+
+.filterButton {
+    border-radius: 10px;
+    border: 0;
+    background-color: transparent;
+    float: right;
+    text-decoration: underline;
+    color : rgb(43, 10, 142);
+    cursor: pointer;
+    width: 200px;
+    text-align: left;
+    padding: 15px 0px;
+}

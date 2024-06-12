@@ -3,6 +3,8 @@ import Header from './Header.jsx'
 import { useState, useEffect } from 'react'
 import Api from './ApiCall.jsx'
 import Link from './Link.jsx'
+import FilterDiv from './FilterDiv.jsx'
+import SortDiv from './sortDiv.jsx'
 import { HiOutlinePlus, HiOutlineMinus, HiOutlineX } from "react-icons/hi"
 
 const sortTypes = [
@@ -16,7 +18,8 @@ const sortTypes = [
   "url dead first"
 ]
 
-function filterLinks(links, filter, likedOnly = false, deadOnly = false) {
+
+function filterLinks(links, filter, likedOnly = false, deadOnly = false, aliveOnly = false ) {
   const filteredLinks = links.filter(link =>
     link.name.toLowerCase().includes(filter.toLowerCase()) ||
     link.link.toLowerCase().includes(filter.toLowerCase())
@@ -24,10 +27,14 @@ function filterLinks(links, filter, likedOnly = false, deadOnly = false) {
 
   if (likedOnly && deadOnly) {
     return filteredLinks.filter(link => link.liked && link.isDead)
-  } else if (likedOnly) {
+  } else if (likedOnly && aliveOnly){
+    return filteredLinks.filter(link => link.liked && !link.isDead)
+  }else if (likedOnly) {
     return filteredLinks.filter(link => link.liked)
   } else if (deadOnly) {
     return filteredLinks.filter(link => link.isDead)
+  } else if (aliveOnly) {
+    return filteredLinks.filter(link => !link.isDead)
   } else {
     return filteredLinks
   }
@@ -79,7 +86,7 @@ function handleName(char) {
 }
 
 function App() {
-  const [showFilter, setShowFilter] = useState(true)
+  const [showFilter, setShowFilter] = useState(false)
   const [sortedBy, setSortedBy] = useState(0)
   const [links, setLinks] = useState([])
   const [filteredLinks, setFilteredLinks] = useState([])
@@ -90,7 +97,7 @@ function App() {
   const [review, setReview] = useState('')
   const [likedOnly , setLikedOnly] = useState(false)
   const [deadOnly , setDeadOnly] = useState(false)
-  const [filter3 , setFilter3] = useState(false)
+  const [aliveOnly , setAliveOnly] = useState(false)
 
   const clearFilter = () => {
     setShowFilter(false)
@@ -103,7 +110,7 @@ function App() {
     setReview('')
     setLikedOnly(false)
     setDeadOnly(false)
-    setFilter3(false)
+    setAliveOnly(false)
   }
 
   const handleSubmit = async (event) => {
@@ -160,12 +167,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-    setFilteredLinks(filterLinks(links, filter, likedOnly, deadOnly))
+    setFilteredLinks(filterLinks(links, filter, likedOnly, deadOnly, aliveOnly))
   }, [filter])
 
   useEffect(() => {
-    setFilteredLinks(sortLinks(filterLinks(links, filter, likedOnly, deadOnly), sortedBy))
-  }, [sortedBy, likedOnly, deadOnly])
+    setFilteredLinks(sortLinks(filterLinks(links, filter, likedOnly, deadOnly, aliveOnly), sortedBy))
+  }, [sortedBy, likedOnly, deadOnly, aliveOnly])
 
   return (
     <div className={appStyle.GlobalDiv}>
@@ -177,37 +184,22 @@ function App() {
       />
       <hr style={{ width: "75%" }} />
 
-      <div
-        className={`${appStyle.filterDiv} ${showFilter ? appStyle.visible : ""}`}
-      >
-        <div className={appStyle.filterRow} >
-          <p className={appStyle.texteFilter} >Show only liked</p> :
-          <button className={`${appStyle.button} ${likedOnly ? appStyle.selected : ""}`} onClick={() => setLikedOnly(true)}>Yes</button>
-          <button className={`${appStyle.button} ${likedOnly ?  "" : appStyle.selected}`} onClick={() => setLikedOnly(false)}>No</button>
+      <FilterDiv
+        showFilter= {showFilter}
+        likedOnly={likedOnly}
+        deadOnly={deadOnly}
+        aliveOnly={aliveOnly}
+        setLikedOnly={setLikedOnly}
+        setDeadOnly={setDeadOnly}
+        setAliveOnly={setAliveOnly}
+      />
 
-        </div>
-
-        <div className={appStyle.filterRow} >
-          <p className={appStyle.texteFilter} >Show only dead link</p> :
-          <button className={`${appStyle.button} ${deadOnly ? appStyle.selected : ""}`} onClick={() => setDeadOnly(true)}>Yes</button>
-          <button className={`${appStyle.button} ${deadOnly ?  "" : appStyle.selected}`} onClick={() => setDeadOnly(false)}>No</button>
-
-        </div>
-
-        <div className={appStyle.filterRow} >
-          <p className={appStyle.texteFilter} >Show only liked</p> :
-          <button className={`${appStyle.button} ${filter3 ? appStyle.selected : ""}`} onClick={() => setFilter3(true)}>Yes</button>
-          <button className={`${appStyle.button} ${filter3 ?  "" : appStyle.selected}`} onClick={() => setFilter3(false)}>No</button>
-
-        </div>
-      </div>
-
-      <div className={appStyle.textDiv}>
-        <p className={appStyle.comments}> {filteredLinks.length} resultats </p>
-        <button className={appStyle.filterButton} onClick={changeSort}>
-          sorted by: {sortTypes[sortedBy]}
-        </button>
-      </div>
+      <SortDiv
+        sortedBy={sortTypes[sortedBy]}
+        changeSort={changeSort}
+        filteredLinks={filteredLinks.length}
+      />
+    
 
       <div className={appStyle.mainDiv}>
         <div className={appStyle.ListeDiv}>

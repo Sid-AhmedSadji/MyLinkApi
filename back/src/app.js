@@ -9,10 +9,8 @@ function routes() {
 
     router.use((req, res, next) => {
         console.log('API: method %s, path %s', req.method, req.path);
-        console.log('Body', req.body);
         console.log('Query', req.query);
         console.log('Params', req.params);
-        console.log('Data', req.data);
         next();
     })
 
@@ -88,7 +86,6 @@ function routes() {
 
             
             const update = { $set: { ...req.query.query } };
-            console.log(update) 
             if (!query._id) {
                 res.status(400).send(" Unidentified Link");
                 return;

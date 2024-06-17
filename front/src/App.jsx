@@ -139,7 +139,7 @@ function App() {
         {
           loading: 'Connecting to server ...',
           success: '${name} successfully added!',
-          error: (err) => `Login failed: ${err?.response?.data || 'Internal server error'}`
+          error: (err) => `${err?.response?.data || 'Internal server error'}`
         }
       )
       await fetchData()

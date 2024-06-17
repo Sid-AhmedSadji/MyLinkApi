@@ -3,6 +3,7 @@ import { HiThumbUp, HiOutlineExclamation, HiOutlineTrash, HiOutlinePencil, HiOut
 import styles from './CSS/Link.module.css';
 import TimeAgo from 'react-timeago';
 import Api from './ApiCall.jsx';
+import toast from 'react-hot-toast';
 
 function CreateLink({ link, fetchData }) {
   const [show, setShow] = useState(false);
@@ -11,12 +12,15 @@ function CreateLink({ link, fetchData }) {
   const [review, setReview] = useState(link.review);
 
   const updateLink = async (link, query) => {
-    try {
       await Api.updateLink(link._id, query);
-      fetchData();
-    } catch (error) {
-      console.log(error);
-    }
+      // modifie link avec les nouvelles valeurs
+      link.name = query.name;
+      link.link = query.link;
+      link.review = query.review;
+      link.liked = query.liked;
+      link.isDead = query.isDead;
+      link.date = query.date;
+
   };
 
   const deleteLink = async (link) => {
@@ -31,9 +35,19 @@ function CreateLink({ link, fetchData }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const query = { name, link: linkUrl, review, date: new Date() };
-    await updateLink(link, query);
-    setShow(!show);
-  };
+    
+    toast.promise (
+      (async () => {
+        await updateLink(link, query);
+        setShow(!show);
+      })(),
+      {
+        loading: 'Connecting to server ...',
+        success: `${name} successfully updated!`,
+        error: (err) => `${err?.response?.data || 'Internal server error'}`
+      });
+  }
+
 
   return (
     <div className={styles.mainDiv}>

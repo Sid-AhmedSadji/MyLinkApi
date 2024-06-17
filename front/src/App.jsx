@@ -154,8 +154,6 @@ function App() {
     try {
       toast.promise(
         (async () => {
-          console.log('Checking session...');
-
           const response = await Api.getLinks(query)
           setLinks([...response].sort((a, b) => a.name.localeCompare( b.name)))
           setFilteredLinks( filterLinks( sortLinks(response, sortedBy ), filter, likedOnly, deadOnly, aliveOnly ) )

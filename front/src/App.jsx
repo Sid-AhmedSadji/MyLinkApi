@@ -6,6 +6,7 @@ import Link from './Link.jsx'
 import FilterDiv from './FilterDiv.jsx'
 import SortDiv from './sortDiv.jsx'
 import { HiOutlinePlus, HiOutlineMinus, HiOutlineX } from "react-icons/hi"
+import toast, { Toaster } from 'react-hot-toast'; 
 
 const sortTypes = [
   "alphabetical",
@@ -17,7 +18,6 @@ const sortTypes = [
   "url dead last",
   "url dead first"
 ]
-
 
 function filterLinks(links, filter, likedOnly = false, deadOnly = false, aliveOnly = false ) {
   const filteredLinks = links.filter(link =>
@@ -92,7 +92,6 @@ function App() {
   const [filteredLinks, setFilteredLinks] = useState([])
   const [filter, setFilter] = useState("")
   const [isOpen, setIsOpen] = useState(false)
-  const [name, setName] = useState('')
   const [link, setLink] = useState('')
   const [review, setReview] = useState('')
   const [likedOnly , setLikedOnly] = useState(false)
@@ -105,7 +104,7 @@ function App() {
     setFilteredLinks(links)
     setFilter("")
     setIsOpen(false)
-    setName('')
+    setFilter('')
     setLink('')
     setReview('')
     setLikedOnly(false)
@@ -115,8 +114,8 @@ function App() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    await postLink(name, link, review)
-    setName('')
+    await postLink(filter, link, review)
+    setFilter('')
     setLink('')
     setReview('')
     setIsOpen(false)
@@ -124,15 +123,25 @@ function App() {
 
   const postLink = async (name, link, review) => {
     try {
-      const response = await Api.postLink({
-        name: name,
-        link: link,
-        liked: false,
-        review: review,
-        isDead: false,
-        date: new Date()
-      })
-      console.log(response)
+      toast.promise(
+        (async () => {
+          const response = await Api.postLink({
+            name: name,
+            link: link,
+            liked: false,
+            review: review,
+            isDead: false,
+            date: new Date()
+          })
+          console.log(response)
+          await fetchData()
+        })(),
+        {
+          loading: 'Connecting to server ...',
+          success: '${name} successfully added!',
+          error: (err) => `Login failed: ${err?.response?.data || 'Internal server error'}`
+        }
+      )
       await fetchData()
     } catch (error) {
       console.log(error)
@@ -140,11 +149,23 @@ function App() {
   }
 
   const fetchData = async () => {
+    
     const query = {}
     try {
-      const response = await Api.getLinks(query)
-      setLinks([...response].sort((a, b) => a.name.localeCompare( b.name)))
-      setFilteredLinks( filterLinks( sortLinks(response, sortedBy ), filter) )
+      toast.promise(
+        (async () => {
+          console.log('Checking session...');
+
+          const response = await Api.getLinks(query)
+          setLinks([...response].sort((a, b) => a.name.localeCompare( b.name)))
+          setFilteredLinks( filterLinks( sortLinks(response, sortedBy ), filter, likedOnly, deadOnly, aliveOnly ) )
+        })(),
+        {
+          loading: 'Connecting to server ...',
+          success: 'Successfuly loaded links!!',
+          error: (err) => `Login failed: ${err?.response?.data || 'Internal server error'}`
+        }
+      );
     } catch (error) {
       console.log(error)
     }
@@ -176,6 +197,7 @@ function App() {
 
   return (
     <div className={appStyle.GlobalDiv}>
+      <Toaster />
       <Header
         toggleFilter={toggleFilter}
         onChangeFilter={handleFilterChange}
@@ -227,8 +249,8 @@ function App() {
             <input
               className={appStyle.smallInput}
               type="text"
-              value={name}
-              onChange={e => setName(handleName(e.target.value))}
+              value={filter}
+              onChange={e => setFilter(handleName(e.target.value))}
               placeholder='Name'
             />
             <input

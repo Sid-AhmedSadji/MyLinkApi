@@ -13,14 +13,7 @@ function CreateLink({ link, fetchData }) {
 
   const updateLink = async (link, query) => {
       await Api.updateLink(link._id, query);
-      // modifie link avec les nouvelles valeurs
-      link.name = query.name;
-      link.link = query.link;
-      link.review = query.review;
-      link.liked = query.liked;
-      link.isDead = query.isDead;
-      link.date = query.date;
-
+      fetchData();
   };
 
   const deleteLink = async (link) => {
@@ -46,6 +39,8 @@ function CreateLink({ link, fetchData }) {
         success: `${name} successfully updated!`,
         error: (err) => `${err?.response?.data || 'Internal server error'}`
       });
+      fetchData();
+
   }
 
 

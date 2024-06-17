@@ -85,6 +85,8 @@ function handleName(char) {
   return name.charAt(0).toUpperCase() + name.slice(1)
 }
 
+
+
 function App() {
   const [showFilter, setShowFilter] = useState(false)
   const [sortedBy, setSortedBy] = useState(0)
@@ -227,7 +229,7 @@ function App() {
             {filteredLinks.map(link => {
               return (
                 <li key={link._id}>
-                  <Link link={link} fetchData={fetchData} />
+                  <Link link={link} fetchData={fetchData}/>
                 </li>
               )
             })}
@@ -276,4 +278,3 @@ function App() {
 }
 
 export default App
-

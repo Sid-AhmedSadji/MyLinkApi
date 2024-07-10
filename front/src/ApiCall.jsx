@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class Api {
     static get API_URL() {
-        return "https://mylinkapi-pf86.onrender.com/Api";
+        return "https://mylinkapi.onrender.com/Api";
     }
 
     static async getLinks(query) {

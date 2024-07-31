@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class Api {
     static get API_URL() {
-        return "http://localhost:7000/Api";
+        return "http://localhost:7000";
     }
 
     static async getLinks(query) {

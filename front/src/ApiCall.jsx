@@ -2,8 +2,7 @@ import axios from 'axios';
 
 class Api {
     static get API_URL() {
-        return "http://noteconnect:7000/Api";
-        //return "http://localhost:7000/Api";
+        return "http://localhost:7000/Api";
     }
 
     static async getLinks(query) {

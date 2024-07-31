@@ -27,7 +27,7 @@ function CreateLink({ link, fetchData }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const query = { name, link: linkUrl, review, date: new Date() };
+    const query = { name, link: linkUrl, review, date: new Date(), isDead: false };
     
     toast.promise (
       (async () => {
@@ -39,7 +39,6 @@ function CreateLink({ link, fetchData }) {
         success: `${name} successfully updated!`,
         error: (err) => `${err?.response?.data || 'Internal server error'}`
       });
-      fetchData();
 
   }
 

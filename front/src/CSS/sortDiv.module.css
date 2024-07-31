@@ -28,9 +28,15 @@
     width: 250px;
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: right;
     align-items: center;
     text-decoration: underline;
     color : rgb(43, 10, 142);
     font-size: 20px;
+}
+
+@media (max-width: 800px){
+    .Icon{
+        width: 180px;
+    }
 }

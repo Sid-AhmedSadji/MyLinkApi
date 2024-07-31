@@ -117,7 +117,6 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     await postLink(filter, link, review)
-    setFilter('')
     setLink('')
     setReview('')
     setIsOpen(false)
@@ -136,19 +135,36 @@ function App() {
             date: new Date()
           })
           console.log(response)
-          await fetchData()
         })(),
         {
           loading: 'Connecting to server ...',
-          success: '${name} successfully added!',
+          success: name+" successfully added!",
           error: (err) => `${err?.response?.data || 'Internal server error'}`
         }
       )
-      await fetchData()
+  
+      // Mettre à jour l'état des liens et des liens filtrés
+      const newLink = {
+        name: name,
+        link: link,
+        liked: false,
+        review: review,
+        isDead: false,
+        date: new Date()
+      };
+      const newLinks = [...links, newLink];
+      setLinks(newLinks);
+      console.log(filteredLinks);
     } catch (error) {
       console.log(error)
-    }
+    } 
   }
+  
+  // UseEffect pour mettre à jour filteredLinks quand links change
+  useEffect(() => {
+    setFilteredLinks(filterLinks(sortLinks(links, sortedBy), filter, likedOnly, deadOnly, aliveOnly))
+  }, [links, sortedBy, filter, likedOnly, deadOnly, aliveOnly])
+  
 
   const fetchData = async () => {
     

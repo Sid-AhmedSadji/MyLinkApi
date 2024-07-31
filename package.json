@@ -1,5 +1,8 @@
 {
     "scripts": {
+        "install:back": "cd back && npm install",
+        "install:front": "cd front && npm install",
+        "install:all": "npm i && npm run install:back && npm run install:front",
         "start:front": "cd front && npm run dev",
         "start:back": "cd back && npm start",
         "dev": "concurrently \"npm run start:front\" \"npm run start:back\""

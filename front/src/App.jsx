@@ -188,7 +188,7 @@ function App() {
   }
 
   const handleFilterChange = (event) => {
-    setFilter(event.target.value)
+    setFilter(event.target.value.replace(/ /g, '_'))
   }
 
   const toggleFilter = () => {

@@ -2,7 +2,8 @@ import axios from 'axios';
 
 class Api {
     static get API_URL() {
-        return "http://localhost:7000";
+       // return "http://localhost:7000";
+       return "https://noteconnectapi.onrender.com";
     }
 
     static async getLinks(query) {

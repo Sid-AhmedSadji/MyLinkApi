@@ -6,19 +6,19 @@ import Link from './Link.jsx'
 import FilterDiv from './FilterDiv.jsx'
 import SortDiv from './sortDiv.jsx'
 import { HiOutlinePlus, HiOutlineMinus, HiOutlineX } from "react-icons/hi"
+import { GoTriangleUp, GoTriangleDown } from "react-icons/go";
 import toast, { Toaster } from 'react-hot-toast'; 
 
 const sortTypes = [
-  "alphabetical",
-  "alphabetical-reverse",
-  "date",
-  "date-reverse",
-  "most liked first",
-  "most liked last",
-  "url dead last",
-  "url dead first"
-]
-
+  { label: "alphabetical", icon: <GoTriangleDown /> },
+  { label: "alphabetical", icon: <GoTriangleUp /> },
+  { label: "date", icon: <GoTriangleDown /> },
+  { label: "date", icon: <GoTriangleUp /> },
+  { label: "like", icon: <GoTriangleDown /> },
+  { label: "like", icon: <GoTriangleUp /> },
+  { label: "alive", icon: <GoTriangleDown /> },
+  { label: "alive", icon: <GoTriangleUp /> }
+];
 function filterLinks(links, filter, likedOnly = false, deadOnly = false, aliveOnly = false ) {
   const filteredLinks = links.filter(link =>
     link.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -233,7 +233,8 @@ function App() {
       />
 
       <SortDiv
-        sortedBy={sortTypes[sortedBy]}
+        sortedByLabel={sortTypes[sortedBy].label}
+        sortedByIcon={sortTypes[sortedBy].icon}
         changeSort={changeSort}
         filteredLinks={filteredLinks.length}
       />
